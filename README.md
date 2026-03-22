@@ -1,86 +1,113 @@
 # Economic Sentiment Analyzer
 
-Analyse automatisee de la correlation entre le sentiment des actualites financieres et l'evolution des marches boursiers.
-
 ---
 
 ## Objectif
 
-Ce projet cherche a repondre a une question simple :
-**Le ton des actualites financieres a-t-il un lien mesurable avec les mouvements du marche ?**
+Ce projet cherche à répondre à une question simple :
+**Le ton des actualités financières a-t-il un lien mesurable avec les mouvements du marché ?**
 
-Le pipeline collecte automatiquement des articles financiers, evalue leur sentiment grace a un modele d'intelligence artificielle specialise en finance, puis mesure statistiquement la correlation avec les donnees boursieres reelles.
+Le pipeline collecte automatiquement des articles financiers, évalue leur sentiment grâce à un modèle d'intelligence artificielle spécialisé en finance, puis mesure statistiquement la corrélation avec les données boursières réelles.
 
 ---
 
-## Fonctionnement
+## Purpose
 
-Le projet s'execute en 5 etapes sequentielles :
+This project aims to answer a simple question:
+**Does the tone of financial news have a measurable link with market movements?**
 
-### 1. Collecte des articles
-- Recuperation automatique des headlines financieres via **Google News**
-- Mots-cles cibles : *stock market, economy, inflation, Fed, earnings...*
-- Fenetre de collecte configurable (25 jours par defaut)
+The pipeline automatically collects financial articles, evaluates their sentiment using an AI model specialized in finance, and then statistically measures the correlation with real stock market data.
 
-### 2. Analyse de sentiment
-- Chaque headline est evaluee par **FinBERT**, un modele de NLP pre-entraine specifiquement sur des textes financiers
-- Chaque article recoit un score entre **-1** (tres negatif) et **+1** (tres positif)
-- Les scores sont ensuite agreges par jour (moyenne, ecart-type, volume)
+---
 
-### 3. Donnees de marche
-- Recuperation des cours historiques via **Yahoo Finance** (librairie `yfinance`)
+## How It Works
 
-## Indices suivis
+The project runs in 5 sequential steps:
 
-| Indicateur | Ticker | Description |
+### 1. Article Collection
+- Automatic retrieval of financial headlines via **Google News**
+- Targeted keywords: *stock market, economy, inflation, Fed, earnings...*
+- Configurable collection window (25 days by default)
+
+### 2. Sentiment Analysis
+- Each headline is evaluated by **FinBERT**, an NLP model pre-trained specifically on financial texts
+- Each article receives a score between **-1** (very negative) and **+1** (very positive)
+- Scores are then aggregated daily (mean, standard deviation, volume)
+
+### 3. Market Data
+- Historical price retrieval via **Yahoo Finance** (`yfinance` library)
+
+| Indicator | Ticker | Description |
 |---|---|---|
-| S&P 500 | `^GSPC` | 500 plus grandes entreprises americaines |
-| VIX | `^VIX` | Indice de volatilite (« indice de la peur ») |
-| Treasury 10Y | `^TNX` | Taux des obligations d'Etat US a 10 ans |
-| Dollar (DXY) | `DX-Y.NYB` | Force du dollar face aux autres devises |
-| Or (Gold) | `GC=F` | Valeur refuge en periode d'incertitude |
+| S&P 500 | `^GSPC` | 500 largest US companies |
+| VIX | `^VIX` | Volatility index ("fear index") |
+| Treasury 10Y | `^TNX` | US 10-year government bond yield |
+| Dollar (DXY) | `DX-Y.NYB` | Dollar strength against other currencies |
+| Gold | `GC=F` | Safe haven asset in times of uncertainty |
 
-- Calcul des rendements journaliers (variation en %)
+- Calculation of daily returns (% change)
 
-### 4. Correlation statistique
-- Fusion des donnees sentiment et marche par date
-- Calcul des correlations de **Pearson** et **Spearman**
-- Test de significativite statistique (p-value < 0.05)
-- Analyse avec decalage temporel (le sentiment d'aujourd'hui predit-il le marche de demain ?)
+### 4. Statistical Correlation
+- Merging sentiment and market data by date
+- **Pearson** and **Spearman** correlation calculations
+- Statistical significance testing (p-value < 0.05)
+- Lagged analysis (does today's sentiment predict tomorrow's market?)
 
-### 5. Visualisation et rapport
-- Generation de graphiques : evolution temporelle, scatter plots, heatmap des correlations
-- Export d'un rapport texte synthetisant les resultats
+### 5. Visualization & Report
+- Chart generation: time series, scatter plots, correlation heatmaps
+- Text report summarizing key findings
 
 ---
 
-## Structure du projet
+## Sample Results
 
+### Sentiment & Market Time Series
+![Time Series](results/sentiment_vs_market.png)
+
+### Correlation Heatmap
+![Heatmap](results/correlation_heatmap.png)
+
+### Scatter Plot — Sentiment vs S&P 500
+![Scatter](results/scatter_sentiment_sp500.png)
+
+---
+
+## Project Structure
+
+```text
 economic-sentiment/
-├── main.py                  # Point d'entree - lance le pipeline complet
-├── requirements.txt         # Dependances Python
+│
+├── main.py                  # Entry point - runs the full pipeline
+├── requirements.txt         # Python dependencies
+│
 ├── src/
-│   ├── scraper.py           # Collecte des articles (Google News)
-│   ├── sentiment.py         # Analyse de sentiment (FinBERT)
-│   ├── market.py            # Donnees boursieres (Yahoo Finance)
-│   ├── correlator.py        # Calculs statistiques
-│   └── visualizer.py        # Graphiques et rapport
-├── data/                    # Donnees generees (CSV)
+│   ├── scraper.py           # Article collection (Google News)
+│   ├── sentiment.py         # Sentiment analysis (FinBERT)
+│   ├── market.py            # Market data (Yahoo Finance)
+│   ├── correlator.py        # Statistical calculations
+│   └── visualizer.py        # Charts and report
+│
+├── data/                    # Generated data (CSV)
+├── results/                 # Charts and report output
 └── README.md
+```
 
 
 ---
 
 ## Installation
 
-
-# Creer un environnement virtuel
+```bash
+# Create a virtual environment
 python -m venv venv
 source venv/bin/activate        # Linux/Mac
 venv\Scripts\activate           # Windows
 
-# Installer les dependances
+# Install dependencies
 pip install -r requirements.txt
 
+
+
+#usage
 
 python main.py
