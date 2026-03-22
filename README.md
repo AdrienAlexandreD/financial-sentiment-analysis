@@ -61,14 +61,17 @@ The project runs in 5 sequential steps:
 
 ## Sample Results
 
+### Sentiment Timeline
+![Heatmap](results/sentiment_timeline.png)
+
+
 ### Sentiment & Market Time Series
 ![Time Series](results/sentiment_vs_market.png)
 
 ### Correlation Heatmap
 ![Heatmap](results/correlation_heatmap.png)
 
-### Scatter Plot — Sentiment vs S&P 500
-![Scatter](results/scatter_sentiment_sp500.png)
+
 
 ---
 
